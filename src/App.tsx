@@ -73,13 +73,34 @@ function App() {
           <span className="font-serif italic font-bold text-rose-600 tracking-wider">For You</span>
         </div>
         {view !== 'builder' && isPreview && (
-          <button
-            onClick={handleBackToBuilder}
-            className="flex items-center gap-1.5 bg-white border border-rose-200 hover:bg-rose-50 text-rose-600 font-semibold px-4.5 py-1.5 rounded-full text-xs transition duration-200 shadow-sm"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Back to Builder</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                const data = {
+                  r: cardData.recipientName,
+                  s: cardData.senderName,
+                  re: cardData.reason,
+                  m: cardData.message,
+                  o: cardData.offering,
+                };
+                const base64Data = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+                const url = `${window.location.origin}${window.location.pathname}?d=${base64Data}`;
+                navigator.clipboard.writeText(url).then(() => {
+                  alert('Card link copied to clipboard! You can now send it to your fiancée.');
+                });
+              }}
+              className="flex items-center gap-1.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold px-4 py-1.5 rounded-full text-xs transition duration-200 shadow-sm"
+            >
+              <span>Share Card Link</span>
+            </button>
+            <button
+              onClick={handleBackToBuilder}
+              className="flex items-center gap-1.5 bg-white border border-rose-200 hover:bg-rose-50 text-rose-600 font-semibold px-4.5 py-1.5 rounded-full text-xs transition duration-200 shadow-sm"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Back to Builder</span>
+            </button>
+          </div>
         )}
       </header>
 
